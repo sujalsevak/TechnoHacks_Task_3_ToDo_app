@@ -11,7 +11,7 @@ if (!process.env.MONGO_URI) {
   process.exit(1);
 }
 
-// Connect to database with error handling
+// Connect to database
 try {
   await connectDB();
 } catch (error) {
@@ -19,27 +19,24 @@ try {
   process.exit(1);
 }
 
-
-
 const app = express();
+
+// UPDATED: Simplified CORS to allow your Vercel frontend
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "http://localhost:5173",
+  origin: "*", 
+  methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
+
 const PORT = process.env.PORT || 7000;
 app.use(express.json());
-app.use((req, res, next) => {
-  const serverUrl = process.env.SERVER_URL || `http://localhost:${PORT}`;
-  res.setHeader(
-    "Content-Security-Policy",
-    `default-src 'self'; connect-src 'self' ${serverUrl}; script-src 'self'; style-src 'self'`
-  );
-  next();
-});
+
+// UPDATED: Removed the strict Content-Security-Policy block 
+// This was likely blocking your connection as well.
 app.use("/api/tasks", taskRoutes);
 
 app.get('/', (req, res) => {
-  res.send('Hello World!');
+  res.send('Backend is running and connected to MongoDB!');
 });
 
 const server = app.listen(PORT, () => {
@@ -54,4 +51,3 @@ server.on('error', (error) => {
   }
   process.exit(1);
 });
-
