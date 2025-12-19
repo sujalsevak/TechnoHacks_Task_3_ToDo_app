@@ -7,6 +7,11 @@ This is a full-stack Todo List application built as part of my internship. It fe
 - **/backend**: Node.js + Express + MongoDB (API)
 
 ## How Live Site Works
+- This is live site:
+   ```bash
+   https://techno-hacks-task-3-to-do-app.vercel.app/
+
+   if add task is not working then wait for few second and try again... it will works...
 
 ## 🚀 Getting Started
 
